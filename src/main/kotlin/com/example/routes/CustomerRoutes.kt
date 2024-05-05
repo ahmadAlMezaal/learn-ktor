@@ -12,9 +12,9 @@ fun Route.customerRoutes() {
     route("/customer") {
         get{
             if(customerStorage.isNotEmpty()){
-                call.respond(customerStorage);
+                call.respond(customerStorage)
             }else{
-                call.respondText("No customers found", status = HttpStatusCode.OK);
+                call.respondText("No customers found", status = HttpStatusCode.OK)
             }
         }
         get("{id?}"){
@@ -25,23 +25,23 @@ fun Route.customerRoutes() {
             val customer = customerStorage.find{it.id ==id } ?: return@get call.respondText(
                 "Customer not found",
                 status = HttpStatusCode.NotFound
-            );
-            call.respond(customer);
+            )
+            call.respond(customer)
         }
         post{
-            val customer = call.receive<Customer>();
-            customerStorage.add(customer);
-            call.respondText("Customer added", status = HttpStatusCode.Created);
+            val customer = call.receive<Customer>()
+            customerStorage.add(customer)
+            call.respondText("Customer added", status = HttpStatusCode.Created)
         }
         delete("{id?}"){
             val id = call.parameters["id"] ?: return@delete call.respondText(
                 "Missing id",
                 status = HttpStatusCode.BadRequest
-            );
+            )
             if(customerStorage.removeIf { it.id == id }){
-                call.respondText("Customer removed correctly", status = HttpStatusCode.OK);
+                call.respondText("Customer removed correctly", status = HttpStatusCode.OK)
             }else{
-                call.respondText("Not found", status = HttpStatusCode.NotFound);
+                call.respondText("Not found", status = HttpStatusCode.NotFound)
             }
         }
     }

@@ -9,7 +9,7 @@ import io.ktor.server.routing.*
 fun Route.listOrderRoutes(){
     get("/orders"){
         if(orderStorage.isNotEmpty()){
-            call.respond(orderStorage);
+            call.respond(orderStorage)
         }
     }
 }
@@ -17,16 +17,16 @@ fun Route.listOrderRoutes(){
 fun Route.getOrderRoute(){
     get("/order/{id?}"){
         val id = call.parameters["id"] ?: return@get call.respondText("Bad Request", status = HttpStatusCode.BadRequest)
-        val order = orderStorage.find{it.number==id} ?: return@get call.respondText("order is not found", status = HttpStatusCode.NotFound);
-        call.respond(order);
+        val order = orderStorage.find{it.number==id} ?: return@get call.respondText("order is not found", status = HttpStatusCode.NotFound)
+        call.respond(order)
     }
 }
 
 fun Route.totaliseOrderRoute(){
     get("/order/{id?}/total"){
         val id = call.parameters["id"] ?: return@get call.respondText("Bad Request", status = HttpStatusCode.BadRequest)
-        val order = orderStorage.find{it.number==id} ?: return@get call.respondText("order is not found", status = HttpStatusCode.NotFound);
+        val order = orderStorage.find{it.number==id} ?: return@get call.respondText("order is not found", status = HttpStatusCode.NotFound)
         val total = order.contents.sumOf{it.price*it.amount}
-        call.respond(total);
+        call.respond(total)
     }
 }
